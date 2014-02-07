@@ -48,3 +48,7 @@ Security at the expense of usability, comes at the expense of security
 
 project ideas
 	create game with tree visualization
+
+Give the game some login you have and see how long John the Ripper takes to tear it apart
+
+Take a mock FB profile or something, then have the player try to guess the password from this information.
