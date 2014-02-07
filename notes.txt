@@ -1,0 +1,50 @@
+Project 4: Avoid bad passwords like “monkey” (an actual top-ten password!)
+“John the Ripper” password crackers run thousands of dictionary words and common combinations against a login page,
+finding the one that works -- unless the password was created by a pro.
+How can players experience “John the Ripper” firsthand in a safe, game environment?
+
+Our goal in this hackathon is to develop new, fun, straightforward games that teach other cybersecurity best practices.
+In 24 hours, team will choose a project from the menu of options, come up with a basic game concept,
+and implement a simple prototype that puts the user “in the driver’s seat”
+and makes abstract cybersecurity principles real in a visceral way.
+Outputs will be judged based on creativity, usability, polish, and likelihood of actually changing the habits of the player. 
+
+====
+
+Keep in mind the characteristics of a strong password:
+a long password that consists of both letters and numbers
+and is used only for your Google Account and not for other sites and services.
+
+"Once an exhaustive password search begins, the most important factor is password length!"
+The important thing to take away from this comic is that longer passwords are better
+because each additional character adds much more time to the breaking of the password.
+Complexity does not matter unless you have length in passwords.
+Complexity is more difficult for humans to remember, but length is not.
+
+http://xkcd.com/538/	funny stealing passwords
+http://xkcd.com/792/	password reuse
+https://xkcd.com/936/	correct horse battery staple
+
+https://xato.net/passwords/analyzing-the-xkcd-comic/
+https://www.grc.com/haystack.htm
+http://rumkin.com/tools/password/passchk.php
+
+Difficulty to guess
+Difficulty to remember
+Or, in other words:
+
+The computer aspect
+The human aspect
+All too often, when discussing complex passwords, strong policies, expiration, etc
+we tend to focus overly much on the computer aspects, and skip over the human aspects.
+
+===
+
+Easy to Guess is bad, but Hard to Remember is equally so
+And that principle is a correct one. We should remember this more often:
+Security at the expense of usability, comes at the expense of security
+
+===
+
+project ideas
+	create game with tree visualization
