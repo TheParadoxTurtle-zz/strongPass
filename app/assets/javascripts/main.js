@@ -14,40 +14,87 @@ $(document).ready(function(){
 	})
 
 	$('#password').keypress(function (e) {
-		var duration = 100;
+		var duration = 5000;
 		
 		if (e.which == 13) {
-			$(".progress").replaceWith("<div class='progress'> \
-				<div class='progress-bar progress-bar-danger' role='progressbar' style='width: 0;'> \
-				<span class='sr-only'></span> \
-				</div> \
-				</div>");
-			var stringGuesser = setInterval(function() {
-				$("#randomString").html(generateString());
-			}, 10);
-			
-			
-			$('.progress-bar').countTo({
-				from: 0,
-				to: $("#progress").width(),
-				speed: duration,
-				refreshInterval: 50,
-				onComplete: function(value) {
-					setTimeout(function() {
-						clearInterval(stringGuesser);
-						$("#randomString").html($("#password").val());
-
-					}, 500);
-				}
-			});
-
-
-
-			
+			// animateScroll(duration);
+			badPassword(duration);
 		}
 	});
 });
 
+
+function badPassword(duration) {
+
+	$(".progress").replaceWith("<div class='progress'> \
+		<div class='progress-bar progress-bar-danger' role='progressbar' style='width: 0;'> \
+		<span class='sr-only'></span> \
+		</div> \
+		</div>");
+	var stringGuesser = setInterval(function() {
+		$("#randomString").html(generateString());
+	}, 10);
+
+
+	$('.progress-bar').countTo({
+		from: 0,
+		to: $("#progress").width(),
+		speed: duration,
+		refreshInterval: 300,
+		onComplete: function(value) {
+			setTimeout(function() {
+				clearInterval(stringGuesser);
+				$("#randomString").html($("#password").val());
+
+			}, 500);
+		}
+	});	
+}
+
+function goodPassword(duration) {
+	$(".progress").replaceWith("<div class='progress'> \
+		<div class='progress-bar progress-bar-danger' role='progressbar' style='width: 0;'> \
+		<span class='sr-only'></span> \
+		</div> \
+		</div>");
+	var stringGuesser = setInterval(function() {
+		$("#randomString").html(generateString());
+	}, 10);
+
+
+	$('.progress-bar').countTo({
+		from: 0,
+		to: $("#progress").width() * 0.8,
+		speed: duration * 0.9,
+		refreshInterval: 300,
+		onComplete: function(value) {
+			$('.progress-bar').countTo({
+				from: $("#progress").width() * 0.8,
+				to: 0,
+				speed: duration * 0.1,
+				refreshInterval: 500,
+				onComplete: function(value) {
+
+					setTimeout(function() {
+						$(".progress").replaceWith("<div class='progress'> \
+							<div class='progress-bar progress-bar-success' role='progressbar'> \
+							<span class='sr-only'></span> \
+							</div> \
+							</div>");
+						$(".progress-bar").css("width", $("#progress").width());
+						clearInterval(stringGuesser);
+						$("#randomString").html("SAFE PASSWORD!");
+
+
+
+					}, 1000);
+
+				}
+			});	
+		}
+	});	
+	
+}
 
 //returns a string of random length from 5 to 10
 function generateString()
