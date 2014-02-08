@@ -14,8 +14,14 @@ $(document).ready(function(){
 	})
 
 	$('#password').keypress(function (e) {
+		var duration = 100;
 		
 		if (e.which == 13) {
+			$(".progress").replaceWith("<div class='progress'> \
+				<div class='progress-bar progress-bar-danger' role='progressbar' style='width: 0;'> \
+				<span class='sr-only'></span> \
+				</div> \
+				</div>");
 			var stringGuesser = setInterval(function() {
 				$("#randomString").html(generateString());
 			}, 10);
@@ -24,10 +30,9 @@ $(document).ready(function(){
 			$('.progress-bar').countTo({
 				from: 0,
 				to: $("#progress").width(),
-				speed: 2000,
-				refreshInterval: 10,
+				speed: duration,
+				refreshInterval: 50,
 				onComplete: function(value) {
-					console.debug(this);
 					setTimeout(function() {
 						clearInterval(stringGuesser);
 						$("#randomString").html($("#password").val());
