@@ -60,7 +60,7 @@ module Strongpass
     config.assets.version = '1.0'
 
     config.assets.initialize_on_precompile = false
-    # config.assets.precompile += %w[edge.3.0.0.min.js NightDay_edge.js NightDay_edgeActions.js]
+    config.assets.precompile += %w[edge.3.0.0.min.js NightDay_edge.js NightDay_edgeActions.js]
 
   end
 end
