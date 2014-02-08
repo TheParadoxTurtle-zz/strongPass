@@ -1,9 +1,10 @@
 $(document).ready(function(){
 	var firstname="";
 	var year="";
-	var lastname='';
+	var lastname="";
 	var hobby="";
-	// $("#infoModal").modal("show");
+	$("#infoModal").modal("show");
+
 	
 	// $("#bubble-1" ).html("fuck you").css('visibility','visible').hide().fadeIn("slow");
 	$("#submitButton").click(function(){
@@ -37,8 +38,8 @@ $(document).ready(function(){
 			}
 			else {
 				var pm = new PasswordMeter();
-				pm.checkPassword(pwd, firstname, lastname, year, hobby);
-				var duration = pm.animationMS				
+				pm.checkPassword(pwd, firstname, lastname, year, hobby, false);
+				var duration = pm.animationMS;			
 				if (duration >= 6000)
 					goodPassword(duration);
 				else

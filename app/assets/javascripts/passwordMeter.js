@@ -344,7 +344,7 @@ this.BasicRequirements =
 	};
 
 	// check if password contains name
-	this.ContainsName = 
+	this.ContainsProfile = 
 	{
 		status : this.STATUS.PASSED
 	};
@@ -369,7 +369,7 @@ this.BasicRequirements =
 	this.animationMS = 0;
 	
 	// this check our password and sets all object properties accordingly
-	this.checkPassword = function(password, firstname, lastname, splitPassword)
+	this.checkPassword = function(password, firstname, lastname, yearofbirth, hobby, splitPassword)
 	{
         // do we have data to check?
         if (!password)
@@ -902,16 +902,9 @@ if (this.RecommendedPasswordLength.status != this.STATUS.EXCEEDED)
 		{
 			var part1 = new PasswordMeter();
 			this.SplitPassword.part1 =  password.substr(0, this.SplitPassword.splitPosition);
-			part1.checkPassword(this.SplitPassword.part1, false);
+			part1.checkPassword(this.SplitPassword.part1, firstname, lastname, yearofbirth, hobby, false);
 			this.SplitPassword.part1Score = part1.Score.adjusted;
 
-			/*
-			var part2 = new PasswordMeter();
-			this.SplitPassword.part2 = password.substr(this.SplitPassword.splitPosition);
-			part2.checkPassword(this.SplitPassword.part2, false);
-			this.SplitPassword.part2Score = part2.Score.adjusted;
-			*/ 
-			
 			// ok, the final score is composed of score one and score two		
 			var old = this.Score.count;
 			
@@ -979,19 +972,27 @@ else
 		temp *= 1.5;
 		if (temp > 100) temp = 100.0;
 
-		//deflate score by 50%
-		//X GET NAME FROM PROMPT
-		// var name = $("#name").val().toLowerCase();
-		if (firstname || lastname) {
-			if (password.toLowerCase().indexOf(name) != -1) {
-				this.ContainsName.status = 0;
-				temp *= .5;
-			} else {
-				this.ContainsName.status = 1;		
-			}
-		}
-		this.Score.adjusted = Math.floor(temp);
+		if (firstname || lastname || yearofbirth || hobby) {
 
+		//deflate score by 50%
+		if (firstname)
+			firstname = firstname.toLowerCase();
+		if (lastname)
+			lastname = lastname.toLowerCase();
+		if (hobby)
+		hobby = hobby.toLowerCase();
+		if (password.toLowerCase().indexOf(firstname) != -1
+			|| password.toLowerCase().indexOf(lastname) != -1
+			|| password.toLowerCase().indexOf(yearofbirth) != -1
+			|| password.toLowerCase().indexOf(hobby) != -1) {
+			this.ContainsProfile.status = 0;
+		temp *= .5;
+	} else {
+		this.ContainsProfile.status = 1;		
+	}
+}
+
+this.Score.adjusted = Math.floor(temp);
 
 		// time thresholds
 		for (var i = 0; i < this.TimeThresholds.limits.length; i++)
@@ -1002,6 +1003,7 @@ else
 				break;
 			}
 		}
+
 
 		return this.Complexity.value;		
 	};
