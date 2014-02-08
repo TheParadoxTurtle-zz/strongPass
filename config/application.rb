@@ -59,7 +59,7 @@ module Strongpass
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
-    config.assets.initialize_on_precompile = true
+    # config.assets.initialize_on_precompile = true
     # config.assets.precompile += %w[edge.3.0.0.min.js NightDay_edge.js NightDay_edgeActions.js]
 
   end
