@@ -1,0 +1,82 @@
+<div id="container">
+
+  <div id="infoModal" class="modal fade bs-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+      <div class="modal-content">
+        <form role="form" id="infoForm">
+         <h3> Tell us something first</h3>
+         <div class="form-group">
+          <label for="firstname">First Name</label>
+          <input type="text" class="form-control" name="firstname" id="firstname" placeholder="Enter your first name">
+        </div>
+        <div class="form-group">
+          <label for="lastname">Last Name</label>
+          <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Enter your last name">
+        </div>
+
+        <div class="form-group" row>
+          <label for="dob">Year Born</label>
+          <input type="text" name="year" class="form-control">
+        </div>
+        <div class="form-group" row>
+          <label for="hobby">Your favorite hobby</label>
+          <textarea type="text" name="hobby" class="form-control"></textarea>
+        </div>
+
+        <button id="skipButton" class="modalBtn btn btn-default">Skip</button>
+        <button id="submitButton" class="modalBtn btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div id="animation">
+  <div id="Stage" class="EDGE-171195031">
+  </div>
+</div>
+
+
+<div id="body" class="row">
+
+  <div class="col-md-7" id="leftBody">
+
+    <div class="row">
+      <div class="col-md-6">
+        <input class="form-control" type="password" id="password" name="password" placeholder="Type in your password">
+      </div>
+      
+      <div class="well well-sm col-md-6" id="randomString">Will your password survive the line of fire?</div>
+    </div>
+
+
+    <div id="progress" class="row">
+      <div class="progress" class="col-md-12">
+        <div class="progress-bar progress-bar-danger" role="progressbar" style="width: 0px;">
+          <span class="sr-only"></span>
+        </div>
+      </div>
+
+
+    </div>
+    
+
+    <div id="logo">
+    <%= image_tag 'passfire-logo.png' %>
+    </div>
+  </div>
+  <div id="bubbleArea" class="col-md-5">
+    <div class="row">
+      <div class="bubble col-md-6" id="bubble-1"></div>
+      <div class="bubble col-md-6" id="bubble-2"></div>
+    </div>
+    <div class="row">
+
+      <div class="bubble col-md-6" id="bubble-3"></div>
+      <div class="bubble col-md-6" id="bubble-4"></div>
+    </div>
+  </div>
+</div>
+
+
+
+

@@ -1,0 +1,83 @@
+// Place all the styles related to the main controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "bootstrap";
+@import "bootstrap/theme";
+
+#animation {
+	height: 350px;
+}
+
+#infoForm {
+	margin: 20px;
+}
+
+#body {
+
+	margin: 1em;
+	margin-top: 1em;
+
+
+	#password {
+		width: 100%;
+	}
+
+	#progress {
+		margin-left: 0px;
+	}
+	#message {
+		margin-left: 0px;
+		visibility: hidden;
+	}
+
+	.panel {
+
+		height: 120px;
+	}
+
+	.well-sm {
+		padding: 6px;
+	}
+
+
+	#randomStrings {
+		.well {
+			text-align: center;
+		}
+	}
+
+	.hint {
+		background-color: #123432;
+	}
+
+	/* bubble settings */
+	.bubble 
+	{
+		visibility: hidden;
+		position: static;
+		display: inline-block;
+		width: 180px;
+		height: 100%;
+		padding: 0px;
+		-webkit-border-radius: 35px;
+		-moz-border-radius: 35px;
+		border-radius: 20px;
+		opacity: 0.5;
+		margin-left: 3em;
+		margin-bottom: 1em;
+		padding:1em;
+		color: #000000;
+
+	}
+
+	
+
+
+
+
+}
+#logo img {
+	width: 100%;
+	opacity: 0.5;	
+}
