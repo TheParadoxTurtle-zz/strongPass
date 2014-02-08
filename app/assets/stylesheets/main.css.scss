@@ -4,3 +4,30 @@
 
 @import "bootstrap";
 @import "bootstrap/theme";
+
+#animation {
+	height: 300px;
+	background: #9C9C9C;
+}
+
+#infoForm {
+	margin: 20px;
+}
+
+#container {
+	margin-top: 2em;
+}
+
+#password {
+	width: 100%;
+}
+
+#progress {
+	margin-top: 30px;
+}
+
+#randomStrings {
+	.well {
+		text-align: center;
+	}
+}
