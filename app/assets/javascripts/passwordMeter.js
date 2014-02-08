@@ -13,6 +13,7 @@
 
 PasswordMeter.prototype = ( 
 {	
+
 	COMPLEXITY:
 	{
 		VERYWEAK: 0,
@@ -367,10 +368,14 @@ this.BasicRequirements =
 	};
 
 	this.animationMS = 0;
+	this.passwordValid = 0;
+	this.passwordScore = 0;
 	this.feedback = new Array();
+	alert("asdf");
 	// this check our password and sets all object properties accordingly
 	this.checkPassword = function(password, firstname, lastname, yearofbirth, hobby, splitPassword)
 	{
+
         // do we have data to check?
         if (!password)
         {
@@ -965,39 +970,36 @@ else
 			}
 		}
 
-		//final adjusments
-		var temp = this.Score.adjusted;
-
-		//inflate score by 50%
-		temp *= 1.5;
-		if (temp > 100) temp = 100.0;
-
 		if (firstname || lastname || yearofbirth || hobby) {
 
-		//deflate score by 50%
-		if (firstname)
-			firstname = firstname.toLowerCase();
-		if (lastname)
-			lastname = lastname.toLowerCase();
-		if (hobby)
-			hobby = hobby.toLowerCase();
-		if (password.toLowerCase().indexOf(firstname) != -1
-			|| password.toLowerCase().indexOf(lastname) != -1
-			|| password.toLowerCase().indexOf(yearofbirth) != -1
-			|| password.toLowerCase().indexOf(hobby) != -1) {
-			this.ContainsProfile.status = 0;
-		temp *= .5;
-	} else {
-		this.ContainsProfile.status = 1;		
+			//deflate score by 50%
+			if (firstname)
+				firstname = firstname.toLowerCase();
+			if (lastname)
+				lastname = lastname.toLowerCase();
+			if (hobby)
+				hobby = hobby.toLowerCase();
+			if (password.toLowerCase().indexOf(firstname) != -1
+				|| password.toLowerCase().indexOf(lastname) != -1
+				|| password.toLowerCase().indexOf(yearofbirth) != -1
+				|| password.toLowerCase().indexOf(hobby) != -1) {
+				this.ContainsProfile.status = 0;
+		} else {
+			this.ContainsProfile.status = 1;		
+		}
 	}
-}
 
-this.Score.adjusted = Math.floor(temp);
+	$("#password").complexify({minimumChars:8, strengthScaleFactor:1},
+		function (valid, complexity) {
+			this.passwordValid = valid;
+			this.passwordScore = Math.round(complexity);
+		});
+
 
 		// time thresholds
 		for (var i = 0; i < this.TimeThresholds.limits.length; i++)
 		{
-			if (this.Score.adjusted <= this.TimeThresholds.limits[i])
+			if (this.passwordScore <= this.TimeThresholds.limits[i])
 			{
 				this.animationMS = this.TimeThresholds.limits[i] * 100;
 				break;

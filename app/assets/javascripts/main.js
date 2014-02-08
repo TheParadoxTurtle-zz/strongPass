@@ -25,7 +25,9 @@ $(document).ready(function(){
 
 	})
 
+
 	$('#password').keypress(function (e) {
+		
 		$(".bubble").fadeOut("slow");
 		if (e.which == 13) {
 			$(".progress-bar").replaceWith("<div class='progress-bar progress-bar-danger' role='progressbar' style='width: 0;'> \
@@ -40,7 +42,7 @@ $(document).ready(function(){
 				pm.checkPassword(pwd, firstname, lastname, year, hobby, false);
 				var duration = pm.animationMS;
 
-				if (duration >= 6000)
+				if (pm.passwordValid
 					goodPassword(duration, pm.feedback);
 				else
 					badPassword(duration, pm.feedback);
