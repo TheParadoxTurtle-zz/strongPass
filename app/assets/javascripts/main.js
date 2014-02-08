@@ -3,7 +3,6 @@ $(document).ready(function(){
 	var year="";
 	var lastname="";
 	var hobby="";
-	$("#infoModal").modal("show");
 
 	
 	// $("#bubble-1" ).html("fuck you").css('visibility','visible').hide().fadeIn("slow");
@@ -27,7 +26,8 @@ $(document).ready(function(){
 	})
 
 	$('#password').keypress(function (e) {
-
+		$("#message").fadeOut("slow");
+		$(".bubble").html("").fadeOut("slow");
 		if (e.which == 13) {
 			$(".progress-bar").replaceWith("<div class='progress-bar progress-bar-danger' role='progressbar' style='width: 0;'> \
 				<span class='sr-only'></span> \
@@ -51,11 +51,13 @@ $(document).ready(function(){
 
 
 function showBubble(number, text) {
-	$("#bubble-" + number).html(text).css('visibility','visible').hide().fadeIn("slow", function(){
-		setTimeout(function(){
-			$("#bubble-" + number).html().fadeOut("slow");
-		}, 3000);
-	});
+	$("#bubble-" + number).html(text).css('visibility','visible').hide().delay(1000).fadeIn("slow");
+}
+
+function showMessage(heading, text) {
+	$("#message .panel-heading").html(heading);
+	$("#message .panel-body").html(text);
+	$("#message").css('visibility','visible').hide().delay(1000).fadeIn("slow");
 }
 
 function badPassword(duration) {
@@ -78,6 +80,7 @@ function badPassword(duration) {
 
 			}, 500);
 			showBubble(1, "hello");
+			showMessage("fuc k", "you are a pussy");
 
 			
 		}
