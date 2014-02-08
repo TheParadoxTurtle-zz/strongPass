@@ -1,8 +1,20 @@
 $(document).ready(function(){
+	var firstname="";
+	var year="";
+	var lastname='';
+	var hobby="";
 	// $("#infoModal").modal("show");
 	
-	
-	$(".modalBtn").click(function(){
+	// $("#bubble-1" ).html("fuck you").css('visibility','visible').hide().fadeIn("slow");
+	$("#submitButton").click(function(){
+		firstname = $("#firstname").val();
+		lastname = $("#lastname").val();
+		year = $("#year").val();
+		hobby = $("#hobby").val();
+		$("#infoModal").modal("hide");
+	});
+
+	$("#skipButton").click(function(){
 		$("#infoModal").modal("hide");
 	});
 
@@ -14,23 +26,40 @@ $(document).ready(function(){
 	})
 
 	$('#password').keypress(function (e) {
-		var duration = 5000;
-		
+
 		if (e.which == 13) {
-			// animateScroll(duration);
-			badPassword(duration);
+			$(".progress-bar").replaceWith("<div class='progress-bar progress-bar-danger' role='progressbar' style='width: 0;'> \
+				<span class='sr-only'></span> \
+				</div>");
+			var pwd = $(this).val();
+			if (pwd == "") {
+				$("#randomString").html("Enter a password");
+			}
+			else {
+				var pm = new PasswordMeter();
+				pm.checkPassword(pwd, firstname, lastname, year, hobby);
+				var duration = pm.animationMS				
+				if (duration >= 6000)
+					goodPassword(duration);
+				else
+					badPassword(duration);
+			}
 		}
 	});
 });
 
 
+function showBubble(number, text) {
+	$("#bubble-" + number).html(text).css('visibility','visible').hide().fadeIn("slow", function(){
+		setTimeout(function(){
+			$("#bubble-" + number).html().fadeOut("slow");
+		}, 3000);
+	});
+}
+
 function badPassword(duration) {
 
-	$(".progress").replaceWith("<div class='progress'> \
-		<div class='progress-bar progress-bar-danger' role='progressbar' style='width: 0;'> \
-		<span class='sr-only'></span> \
-		</div> \
-		</div>");
+	
 	var stringGuesser = setInterval(function() {
 		$("#randomString").html(generateString());
 	}, 10);
@@ -44,19 +73,18 @@ function badPassword(duration) {
 		onComplete: function(value) {
 			setTimeout(function() {
 				clearInterval(stringGuesser);
-				$("#randomString").html($("#password").val());
+				$("#randomString").html("<b>" + $('#password').val() + "</b>" + " is an unsafe password!");
 
 			}, 500);
+			showBubble(1, "hello");
+
+			
 		}
 	});	
 }
 
 function goodPassword(duration) {
-	$(".progress").replaceWith("<div class='progress'> \
-		<div class='progress-bar progress-bar-danger' role='progressbar' style='width: 0;'> \
-		<span class='sr-only'></span> \
-		</div> \
-		</div>");
+
 	var stringGuesser = setInterval(function() {
 		$("#randomString").html(generateString());
 	}, 10);
@@ -64,26 +92,24 @@ function goodPassword(duration) {
 
 	$('.progress-bar').countTo({
 		from: 0,
-		to: $("#progress").width() * 0.8,
+		to: $("#progress").width() * 0.7,
 		speed: duration * 0.9,
 		refreshInterval: 300,
 		onComplete: function(value) {
 			$('.progress-bar').countTo({
-				from: $("#progress").width() * 0.8,
+				from: $("#progress").width() * 0.7,
 				to: 0,
 				speed: duration * 0.1,
-				refreshInterval: 500,
+				refreshInterval: 200,
 				onComplete: function(value) {
 
 					setTimeout(function() {
-						$(".progress").replaceWith("<div class='progress'> \
-							<div class='progress-bar progress-bar-success' role='progressbar'> \
+						$(".progress-bar").replaceWith("<div class='progress-bar progress-bar-success' role='progressbar'> \
 							<span class='sr-only'></span> \
-							</div> \
 							</div>");
 						$(".progress-bar").css("width", $("#progress").width());
 						clearInterval(stringGuesser);
-						$("#randomString").html("SAFE PASSWORD!");
+						$("#randomString").html("<b>" + $('#password').val() + "</b>" + "     is a safe password!");
 
 
 

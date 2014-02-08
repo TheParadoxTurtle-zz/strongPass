@@ -14,19 +14,84 @@
 }
 
 #body {
-	margin-top: 5em;
-}
 
-#password {
-	width: 100%;
-}
+	margin: 1em;
 
-#progress {
-	margin: 20px;
-}
 
-#randomStrings {
-	.well {
-		text-align: center;
+	#password {
+		width: 100%;
+	}
+
+	#progress {
+		margin-left: 0px;
+	}
+	#message {
+		margin-left: 0px;
+		visibility: hidden;
+	}
+
+	.panel {
+
+		height: 120px;
+	}
+
+	.well-sm {
+		padding: 6px;
+	}
+
+
+	#randomStrings {
+		.well {
+			text-align: center;
+		}
+	}
+
+	.hint {
+		background-color: #123432;
+	}
+
+
+	.bubble 
+	{
+		visibility: hidden;
+		position: static;
+		display: inline-block;
+		width: 180px;
+		height: 6em;
+		padding: 0px;
+		background: #B9FFFF;
+		-webkit-border-radius: 35px;
+		-moz-border-radius: 35px;
+		border-radius: 20px;
+		opacity: 0.5;
+		margin-left: 3em;
+		margin-bottom: 1em;
+		padding:1em;
+
+	}
+
+	.bubble:after 
+	{
+		content: '';
+		position: relative;
+		border-style: solid;
+		border-width: 15px 27px 15px 0;
+		border-color: transparent #B9FFFF;
+		display: block;
+		width: 0;
+		z-index: 1;
+		left: -27px;
+		top: 0px;
+	}
+
+
+
+
+}
+.footer {
+	margin: 1em;
+	img {
+		width: 60%;
+		opacity: 0.4
 	}
 }

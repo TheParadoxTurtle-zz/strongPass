@@ -1,54 +1,67 @@
+/*
+.5		monkey
+1		
+1.5		
+2
+2.5		b@tman
+3
+4
+6		ronpaul2012
+8
+10		faceB00k$ux
+*/
+
 PasswordMeter.prototype = ( 
 {	
 	COMPLEXITY:
 	{
-	    VERYWEAK: 0,
-	    WEAK: 1,
-	    GOOD: 2,
-	    STRONG: 3,
-	    VERYSTRONG: 4
+		VERYWEAK: 0,
+		WEAK: 1,
+		GOOD: 2,
+		STRONG: 3,
+		VERYSTRONG: 4
 	},
 	
 	STATUS:
 	{
-	    FAILED: 0,
-	    PASSED: 1,
-	    EXCEEDED: 2
+		FAILED: 0,
+		PASSED: 1,
+		EXCEEDED: 2
 	},
 	
     // little string helper to reverse a string
     strReverse: function(str) 
     {
-        var newstring = "";
-        for (var s = 0; s < str.length; s++) 
-        {
-            newstring = str.charAt(s) + newstring;
-        }
-        return newstring;
+    	var newstring = "";
+    	for (var s = 0; s < str.length; s++) 
+    	{
+    		newstring = str.charAt(s) + newstring;
+    	}
+    	return newstring;
     },
     
     int2str: function(aNumber) 
     {
-		if (aNumber == 0) 
-		{
-			return "0";
-		}
-		else 
-		{
-			return parseInt(aNumber, 10);
-		}
+    	if (aNumber == 0) 
+    	{
+    		return "0";
+    	}
+    	else 
+    	{
+    		return parseInt(aNumber, 10);
+    	}
     },
 
     float2str: function(aNumber) 
     {
-		if (aNumber == 0) 
-		{
-			return "0.00";
-		}
-		else 
-		{
-			return parseFloat(aNumber.toFixed(2));
-		}
+    	if (aNumber == 0) 
+    	{
+    		return "0.00";
+    	}
+    	else 
+    	{
+    		return parseFloat(aNumber.toFixed(2));
+    	}
     },
 
 	// helper for the status
@@ -103,6 +116,12 @@ function PasswordMeter()
 		value: this.COMPLEXITY.VERYWEAK
 	};
 	
+	// time index
+	this.TimeThresholds = 
+	{
+		limits: [5, 10, 15, 20, 25, 30, 40, 60, 80, 100],
+	}
+
 	// the length of the password
 	this.PasswordLength =
 	{
@@ -135,9 +154,9 @@ function PasswordMeter()
 	// 3) Lowercase letter use
 	// 4) Numeric character use
 	// 5) Symbol use
-	this.BasicRequirements =
-	{
-		count  : 0, 
+this.BasicRequirements =
+{
+	count  : 0, 
 		minimum: 3, // have to be matched to get the bonus
 		formula: "TBD", 
 		status : this.STATUS.FAILED, 
@@ -279,11 +298,11 @@ function PasswordMeter()
 		data: [	"qwertzuiop", "asdfghjkl", "yxcvbnm", "!\"§$%&/()=", // de
 				"1234567890", // de numbers
 				"qaywsxedcrfvtgbzhnujmik,ol.pö-üä+#", // de up-down
-			   
+
 			    "qwertyuiop", "asdfghjkl", "zyxcvbnm", "!@#$%^&*()_", // en
 				"1234567890", // en numbers
 		        "qazwsxedcrfvtgbyhnujmik,ol.p;/[']\\" // en up-down
-		],
+		        ],
 		length: 4, // how long is the pattern to check and blame for?
 		
 		count: 0, // how much of these pattern can be found
@@ -346,10 +365,12 @@ function PasswordMeter()
 		part1Score	: 0, 
 		// part2Score	: 0 
 	};
+
+	this.animationMS = 0;
 	
 	// this check our password and sets all object properties accordingly
-    this.checkPassword = function(password, splitPassword)
-    {
+	this.checkPassword = function(password, firstname, lastname, splitPassword)
+	{
         // do we have data to check?
         if (!password)
         {
@@ -357,10 +378,10 @@ function PasswordMeter()
             password = "";
         }
 
-		if (!splitPassword)
-		{
-			splitPassword = true;
-		}
+        if (!splitPassword)
+        {
+        	splitPassword = true;
+        }
         
         // check the password and set all values
         var nTmpAlphaUC = -1;
@@ -369,20 +390,20 @@ function PasswordMeter()
         var nTmpSymbol  = -1;
 
 		// how long is the password?
-        this.PasswordLength.count = password.length;
-        this.RecommendedPasswordLength.count = password.length;
-        
+		this.PasswordLength.count = password.length;
+		this.RecommendedPasswordLength.count = password.length;
+
         // split it, all characters are permitted so far
         var passwordArray = password.split("");
 
         // Loop through password to check for Symbol, Numeric, Lowercase 
 		// and Uppercase pattern matches
-        for (var a = 0; a < passwordArray.length; a++) 
-        {
+		for (var a = 0; a < passwordArray.length; a++) 
+		{
 			// check uppercase letters
-            if (passwordArray[a].match(/[A-Z]/g)) 
-            {
-                if (nTmpAlphaUC != -1) 
+			if (passwordArray[a].match(/[A-Z]/g)) 
+			{
+				if (nTmpAlphaUC != -1) 
 				{ 
 					// check last uppercase position, when the previous one, store
 					// the information
@@ -393,14 +414,14 @@ function PasswordMeter()
 					} 
 				}
 				// store the last uppercase position
-                nTmpAlphaUC = a;
+				nTmpAlphaUC = a;
 
-                this.UppercaseLetters.count++;
-            }
+				this.UppercaseLetters.count++;
+			}
 			// check lowercase
-            else if (passwordArray[a].match(/[a-z]/g)) 
-            { 
-                if (nTmpAlphaLC != -1) 
+			else if (passwordArray[a].match(/[a-z]/g)) 
+			{ 
+				if (nTmpAlphaLC != -1) 
 				{ 
 					if ((nTmpAlphaLC + 1) == a) 
 					{ 
@@ -408,17 +429,17 @@ function PasswordMeter()
 						this.nConsecutiveLetters++; 
 					} 
 				}
-                nTmpAlphaLC = a;
-                this.LowercaseLetters.count++;
-            }
+				nTmpAlphaLC = a;
+				this.LowercaseLetters.count++;
+			}
 			// check numeric
-            else if (passwordArray[a].match(/[0-9]/g)) 
-            { 
-                if (a > 0 && a < (passwordArray.length - 1)) 
+			else if (passwordArray[a].match(/[0-9]/g)) 
+			{ 
+				if (a > 0 && a < (passwordArray.length - 1)) 
 				{ 
 					this.MiddleNumerics.count++; 
 				}
-                if (nTmpNumber != -1) 
+				if (nTmpNumber != -1) 
 				{ 
 					if ((nTmpNumber + 1) == a) 
 					{ 
@@ -426,17 +447,17 @@ function PasswordMeter()
 						this.nConsecutiveLetters++; 
 					} 
 				}
-                nTmpNumber = a;
-                this.Numerics.count++;
-            }
+				nTmpNumber = a;
+				this.Numerics.count++;
+			}
 			// check all extra characters
-            else if (passwordArray[a].match(new RegExp(/[^a-zA-Z0-9]/g))) 
-            { 
-                if (a > 0 && a < (passwordArray.length - 1)) 
+			else if (passwordArray[a].match(new RegExp(/[^a-zA-Z0-9]/g))) 
+			{ 
+				if (a > 0 && a < (passwordArray.length - 1)) 
 				{ 
 					this.MiddleSymbols.count++; 
 				}
-                if (nTmpSymbol != -1) 
+				if (nTmpSymbol != -1) 
 				{ 
 					if ((nTmpSymbol + 1) == a) 
 					{ 
@@ -444,17 +465,17 @@ function PasswordMeter()
 						this.nConsecutiveLetters++; 
 					} 
 				}
-                nTmpSymbol = a;
-                this.Symbols.count++;
-            }
-        }
+				nTmpSymbol = a;
+				this.Symbols.count++;
+			}
+		}
 
 		// check the variance of symbols or better the redundancy
 		// makes only sense for at least two characters
 		if (passwordArray.length > 1) 
 		{
 			var uniqueCharacters = new Array();
-		    for (var a = 0; a < passwordArray.length; a++) 
+			for (var a = 0; a < passwordArray.length; a++) 
 			{
 				var found = false;
 				
@@ -551,40 +572,40 @@ function PasswordMeter()
 		}
 
         // Try to find repeated sequences of characters.
-		if (this.PasswordLength.count > this.RepeatedSequences.length) 
-		{
-			for (var s = 0; s < lowercasedPassword.length - this.RepeatedSequences.length; s++) 
-			{
-				var sFwd = lowercasedPassword.substring(s, s + this.RepeatedSequences.length);
-				
-				var result = lowercasedPassword.indexOf(sFwd, s + this.RepeatedSequences.length);
-				if (result != -1) 
-				{
-					this.RepeatedSequences.count++;
-				}
-			}
-		}
+        if (this.PasswordLength.count > this.RepeatedSequences.length) 
+        {
+        	for (var s = 0; s < lowercasedPassword.length - this.RepeatedSequences.length; s++) 
+        	{
+        		var sFwd = lowercasedPassword.substring(s, s + this.RepeatedSequences.length);
+
+        		var result = lowercasedPassword.indexOf(sFwd, s + this.RepeatedSequences.length);
+        		if (result != -1) 
+        		{
+        			this.RepeatedSequences.count++;
+        		}
+        	}
+        }
 
         // Try to find mirrored sequences of characters.
-		if (this.PasswordLength.count > this.MirroredSequences.length) 
-		{
-			for (var s = 0; s < lowercasedPassword.length - this.MirroredSequences.length; s++) 
-			{
-				var sFwd = lowercasedPassword.substring(s, s + this.MirroredSequences.length);
-				var sRev = this.strReverse(sFwd);
-				
-				var result = lowercasedPassword.indexOf(sRev, s + this.MirroredSequences.length);
-				if (result != -1) 
-				{
-					this.MirroredSequences.count++;
-				}
-			}
-		}
+        if (this.PasswordLength.count > this.MirroredSequences.length) 
+        {
+        	for (var s = 0; s < lowercasedPassword.length - this.MirroredSequences.length; s++) 
+        	{
+        		var sFwd = lowercasedPassword.substring(s, s + this.MirroredSequences.length);
+        		var sRev = this.strReverse(sFwd);
+
+        		var result = lowercasedPassword.indexOf(sRev, s + this.MirroredSequences.length);
+        		if (result != -1) 
+        		{
+        			this.MirroredSequences.count++;
+        		}
+        	}
+        }
 
 		//*************************************************************************
 		//* Initial score based on length
 		//*************************************************************************
-        this.Score.count = this.PasswordLength.count * this.PasswordLength.factor;
+		this.Score.count = this.PasswordLength.count * this.PasswordLength.factor;
 		
 		//*************************************************************************
 		//* PasswordLength
@@ -598,7 +619,7 @@ function PasswordMeter()
 		{
 			// credit additional characters over minimum
 			this.PasswordLength.rating  = this.PasswordLength.bonus + 
-				(this.PasswordLength.count - this.PasswordLength.minimum) * this.PasswordLength.factor;
+			(this.PasswordLength.count - this.PasswordLength.minimum) * this.PasswordLength.factor;
 		}
 		this.Score.count += this.PasswordLength.rating;
 
@@ -610,8 +631,8 @@ function PasswordMeter()
 		if (this.PasswordLength.count >= this.RecommendedPasswordLength.minimum)
 		{
 			this.RecommendedPasswordLength.rating = 
-								this.RecommendedPasswordLength.bonus +
-								(this.PasswordLength.count - this.RecommendedPasswordLength.minimum) * this.RecommendedPasswordLength.factor;
+			this.RecommendedPasswordLength.bonus +
+			(this.PasswordLength.count - this.RecommendedPasswordLength.minimum) * this.RecommendedPasswordLength.factor;
 		}
 		else
 		{
@@ -795,8 +816,8 @@ function PasswordMeter()
 		if (this.BasicRequirements.status != this.STATUS.FAILED)
 		{
 			this.BasicRequirements.rating = 
-							this.BasicRequirements.bonus + 
-							(this.BasicRequirements.factor * this.BasicRequirements.count);
+			this.BasicRequirements.bonus + 
+			(this.BasicRequirements.factor * this.BasicRequirements.count);
 		}
 		else
 		{
@@ -816,8 +837,8 @@ function PasswordMeter()
 		this.MirroredSequences.status = this.determineBinaryStatus(this.MirroredSequences.count);
 
 		// we apply them only, if the length is not awesome ;)
-		if (this.RecommendedPasswordLength.status != this.STATUS.EXCEEDED)
-		{
+if (this.RecommendedPasswordLength.status != this.STATUS.EXCEEDED)
+{
 			//*************************************************************************
 			//* RepeatedSequences
 			//* Honor or punish the RepeatedSequences letter use
@@ -898,8 +919,8 @@ function PasswordMeter()
 			if (this.SplitPassword.part1Score < 100)
 			{
 				this.Score.count = 
-					this.Score.count * this.SplitPassword.weightFull +
-					this.SplitPassword.part1Score * this.SplitPassword.weight1;
+				this.Score.count * this.SplitPassword.weightFull +
+				this.SplitPassword.part1Score * this.SplitPassword.weight1;
 					// this.SplitPassword.part2Score * this.SplitPassword.weight2;
 
 				/*
@@ -909,23 +930,23 @@ function PasswordMeter()
 				//this.SplitPassword.part2 + ": " + this.SplitPassword.part2Score + "\n" +
 				"New: " + this.Score.count
 				);*/
-			}
-			else
-			{
-				this.SplitPassword.part1Score = this.Score.count;
-				
+}
+else
+{
+	this.SplitPassword.part1Score = this.Score.count;
+
 				/*alert("Unchanged\n" + 
 				password + ": " + old + "\n" +
 				this.SplitPassword.part1 + ": " + this.SplitPassword.part1Score + "\n" + 
 				//this.SplitPassword.part2 + ": " + this.SplitPassword.part2Score + "\n" +
 				"New: " + this.Score.count
 				);*/
-			}
-		}
-		else
-		{
-			this.SplitPassword.part1Score = this.Score.count;
-		}
+}
+}
+else
+{
+	this.SplitPassword.part1Score = this.Score.count;
+}
 
 		// level it out again
 		if (this.Score.count > 100) 
@@ -951,7 +972,6 @@ function PasswordMeter()
 			}
 		}
 
-
 		//final adjusments
 		var temp = this.Score.adjusted;
 
@@ -960,16 +980,29 @@ function PasswordMeter()
 		if (temp > 100) temp = 100.0;
 
 		//deflate score by 50%
-		var name = $("#name").val().toLowerCase();
-		if (password.toLowerCase().indexOf(name) != -1) {
-			this.ContainsName.status = 0;
-			temp *= .5;
-		} else
-			this.ContainsName.status = 1;
-		
+		//X GET NAME FROM PROMPT
+		// var name = $("#name").val().toLowerCase();
+		if (firstname || lastname) {
+			if (password.toLowerCase().indexOf(name) != -1) {
+				this.ContainsName.status = 0;
+				temp *= .5;
+			} else {
+				this.ContainsName.status = 1;		
+			}
+		}
 		this.Score.adjusted = Math.floor(temp);
 
 
+		// time thresholds
+		for (var i = 0; i < this.TimeThresholds.limits.length; i++)
+		{
+			if (this.Score.adjusted <= this.TimeThresholds.limits[i])
+			{
+				this.animationMS = this.TimeThresholds.limits[i] * 100;
+				break;
+			}
+		}
+
 		return this.Complexity.value;		
-    };
+	};
 }
