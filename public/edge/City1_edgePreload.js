@@ -50,18 +50,18 @@ if(document.addEventListener ){
    };
 
    aLoader = [
-      { load: " <%= asset_path('edge.3.0.0.min.js') %>"},
-      { load: "<%= asset_path('NightDay_edge.js') %>"},
-      { load: "<%= asset_path('NightDay_edgeActions.js') %>"}];
+      { load: "edge/edge.3.0.0.min.js"},
+      { load: "edge/City1_edge.js"},
+      { load: "edge/City1_edgeActions.js"}];
 
 if (AdobeEdge.bootstrapLoading) { signaledLoading = true; AdobeEdge.loadResources=doLoadResources; AdobeEdge.playWhenReady=playWhenReady; }
 
 loadResources(aLoader, doDelayLoad);
 
-var plSTF="none",ctrPlS="horizontal",minPlW="0",maxPlW="none",plWidth="100%",plHeight="350px";
+var plSTF="none",ctrPlS="none",minPlW="0",maxPlW=undefined,plWidth="100%",plHeight="350px";
 
 preContent={dom: [ ]};//simpleContent
 
 dlContent={dom: [ ]};//simpleContent
 
-})( "EDGE-171195031");
+})( "EDGE-193506085");
