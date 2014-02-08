@@ -26,8 +26,7 @@ $(document).ready(function(){
 	})
 
 	$('#password').keypress(function (e) {
-		$("#message").fadeOut("slow");
-		$(".bubble").html("").fadeOut("slow");
+		$(".bubble").fadeOut("slow");
 		if (e.which == 13) {
 			$(".progress-bar").replaceWith("<div class='progress-bar progress-bar-danger' role='progressbar' style='width: 0;'> \
 				<span class='sr-only'></span> \
@@ -39,11 +38,13 @@ $(document).ready(function(){
 			else {
 				var pm = new PasswordMeter();
 				pm.checkPassword(pwd, firstname, lastname, year, hobby, false);
-				var duration = pm.animationMS;			
+				var duration = pm.animationMS;
+
 				if (duration >= 6000)
-					goodPassword(duration);
+					goodPassword(duration, pm.feedback);
 				else
-					badPassword(duration);
+					badPassword(duration, pm.feedback);
+
 			}
 		}
 	});
@@ -51,16 +52,17 @@ $(document).ready(function(){
 
 
 function showBubble(number, text) {
-	$("#bubble-" + number).html(text).css('visibility','visible').hide().delay(1000).fadeIn("slow");
+	var randomColor = get_random_color();
+	$("#bubble-" + number).html(text).css('visibility','visible').css("background-color", randomColor).hide().delay(1000).fadeIn("slow");
 }
 
-function showMessage(heading, text) {
-	$("#message .panel-heading").html(heading);
-	$("#message .panel-body").html(text);
-	$("#message").css('visibility','visible').hide().delay(1000).fadeIn("slow");
+function get_random_color() {
+	var color = "rgba(" + Math.floor((Math.random()*255)+1) + "," + Math.floor((Math.random()*255)+1) + "," + Math.floor((Math.random()*255)+1) + ",0.5)";
+
+	return color;
 }
 
-function badPassword(duration) {
+function badPassword(duration, feedback) {
 
 	
 	var stringGuesser = setInterval(function() {
@@ -79,15 +81,18 @@ function badPassword(duration) {
 				$("#randomString").html("<b>" + $('#password').val() + "</b>" + " is an unsafe password!");
 
 			}, 500);
-			showBubble(1, "hello");
-			showMessage("fuc k", "you are a pussy");
+			showBubble(1, feedback[0]);
+			showBubble(2, feedback[1]);	
+			showBubble(3, feedback[2]);	
+			showBubble(4, feedback[3]);
+			
 
 			
 		}
 	});	
 }
 
-function goodPassword(duration) {
+function goodPassword(duration, feedback) {
 
 	var stringGuesser = setInterval(function() {
 		$("#randomString").html(generateString());
@@ -114,7 +119,10 @@ function goodPassword(duration) {
 						$(".progress-bar").css("width", $("#progress").width());
 						clearInterval(stringGuesser);
 						$("#randomString").html("<b>" + $('#password').val() + "</b>" + "     is a safe password!");
-
+						showBubble(1, feedback[0]);
+						showBubble(2, feedback[1]);	
+						showBubble(3, feedback[2]);	
+						showBubble(4, feedback[3]);
 
 
 					}, 1000);

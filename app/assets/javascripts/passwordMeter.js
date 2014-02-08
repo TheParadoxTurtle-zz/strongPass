@@ -367,7 +367,7 @@ this.BasicRequirements =
 	};
 
 	this.animationMS = 0;
-	
+	this.feedback = new Array();
 	// this check our password and sets all object properties accordingly
 	this.checkPassword = function(password, firstname, lastname, yearofbirth, hobby, splitPassword)
 	{
@@ -980,7 +980,7 @@ else
 		if (lastname)
 			lastname = lastname.toLowerCase();
 		if (hobby)
-		hobby = hobby.toLowerCase();
+			hobby = hobby.toLowerCase();
 		if (password.toLowerCase().indexOf(firstname) != -1
 			|| password.toLowerCase().indexOf(lastname) != -1
 			|| password.toLowerCase().indexOf(yearofbirth) != -1
@@ -1004,7 +1004,37 @@ this.Score.adjusted = Math.floor(temp);
 			}
 		}
 
+				//determining what to give as feedback, elements 0 to 3 are critiques, 4 is praise
+				if (this.RecommendedPasswordLength.status == 0) 
+					this.feedback.push("Longer passwords are harder to crack. Try more characters.");
+				if (this.ContainsProfile.status == 0)
+					this.feedback.push("Putting your personal info in your password makes it less secure.");
+				if (this.KeyboardPatterns.status == 0)
+					this.feedback.push("Repeating keyboard patterns like 'asdf' make you an easy target for hackers");
+				if (this.LowercaseLetters.status == 0 
+					|| this.UppercaseLetters.status == 0
+					|| this.Numerics.status == 0
+					|| this.Symbols.status == 0)
+					this.feedback.push("Consider more lowercase, uppercase, numbers, and symbols to make your password harder to crack.");
+				if (this.MirroredSequences.status == 0 || this.RepeatedSequences.status == 0)
+					this.feedback.push("Redundancy, by mirroring or repeating characters in your password, may make it easier to remember, but also make it easier to crack.");
+				if (this.SequentialNumerics.status == 0 || this.SequentialLetters.status == 0)
+					this.feedback.push("Avoid number/letter patterns like 'abc' and '789' to make your password more secure.");
+				var feedbackExtra = ["The top 10,000 passwords are used by 98.8% of all users.",
+				"Good practice is to have long passwords with letters, numbers, and symbols.",
+				"'Easy to guess' is bad, but 'hard to remember' is equally so.",
+				"Remember: different passwords for different accounts!"];
 
+		//shuffle feedbackExtra[]
+		for (var i = feedbackExtra.length - 1; i > 0; i--) {
+			var j=Math.floor(Math.random()*(i+1));
+			var temp=feedbackExtra[i];
+			feedbackExtra[i]=feedbackExtra[j];
+			feedbackExtra[j]=temp;
+		}
+		//add feedbackExtra[] to feedback[]
+		for(var i = 0; i < feedbackExtra.length; i++)
+			this.feedback.push(feedbackExtra[i]);
 		return this.Complexity.value;		
 	};
 }
